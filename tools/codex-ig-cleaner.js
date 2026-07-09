@@ -48,8 +48,8 @@
     </div>
     <div style="font-size:12px;color:#9aa">Segue <b>${following.length}</b> · te segue <b>${followers.length}</b> · não retribuem <b style="color:#FF6B35">${nonFollowers.length}</b></div>
     <div style="display:flex;gap:8px;margin:10px 0;font-size:12px">
-      <label>Delay(s) <input id="cx-delay" type="number" value="7" min="4" style="width:46px;background:#111;color:#fff;border:1px solid #333;border-radius:6px"></label>
-      <label>Limite/vez <input id="cx-cap" type="number" value="100" min="1" max="200" style="width:52px;background:#111;color:#fff;border:1px solid #333;border-radius:6px"></label>
+      <label>Delay(s) <input id="cx-delay" type="number" value="4" min="2" style="width:46px;background:#111;color:#fff;border:1px solid #333;border-radius:6px"></label>
+      <label>Quantidade <input id="cx-cap" type="number" value="150" min="1" style="width:60px;background:#111;color:#fff;border:1px solid #333;border-radius:6px"></label>
     </div>
     <div style="display:flex;gap:6px;font-size:12px;margin-bottom:6px">
       <span onclick="document.querySelectorAll('.cx-ck').forEach(c=>c.checked=true)" style="cursor:pointer;color:#00E5C9">marcar todos</span>·
@@ -73,12 +73,12 @@
   const btn = box.querySelector("#cx-go");
   btn.onclick = async () => {
     if (btn.dataset.running) { stop = true; btn.textContent = "parando..."; return; }
-    const delay = Math.max(4, +box.querySelector("#cx-delay").value) * 1000;
-    const cap   = Math.min(200, +box.querySelector("#cx-cap").value);
-    const BATCH = 40, PAUSE = 300;                                   // a cada 40 unfollows, dorme 5 min (anti-block, igual o do github)
+    const delay = Math.max(2, +box.querySelector("#cx-delay").value) * 1000;
+    const cap   = Math.max(1, +box.querySelector("#cx-cap").value);   // sem teto: você escolhe a quantidade
+    const BATCH = 50, PAUSE = 120;                                    // a cada 50 unfollows, dorme 2 min (anti-block)
     const marked = [...box.querySelectorAll(".cx-ck:checked")].slice(0, cap);
     if (!marked.length) return;
-    if (!confirm(`Deixar de seguir ${marked.length} (cap ${cap}/dia), ~${delay/1000}s cada + pausa de 5min a cada ${BATCH}? Para ao clicar de novo.`)) return;
+    if (!confirm(`Deixar de seguir ${marked.length}, ~${delay/1000}s cada + pausa de ${PAUSE}s a cada ${BATCH}? Para ao clicar de novo. Você assume o risco (volume alto pode bloquear temporário).`)) return;
     btn.dataset.running = "1"; btn.textContent = "PARAR";
     let ok = 0;
     for (let i = 0; i < marked.length; i++) {
@@ -92,12 +92,12 @@
       } catch (err) { log("erro: " + err.message); }
       // pausa de lote com CONTAGEM VISÍVEL (nunca parece travado)
       if (ok > 0 && ok % BATCH === 0 && i < marked.length - 1) {
-        log(`⏸ pausa anti-block (5 min)...`);
+        log(`⏸ pausa anti-block (${PAUSE}s)...`);
         for (let s = PAUSE; s > 0 && !stop; s--) { btn.textContent = `PAUSA ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")} (clique = PARAR)`; await sleep(1000); }
         btn.textContent = "PARAR";
       } else { await sleep(jitter(delay)); }
     }
-    log(`<b>Fim: ${ok} deixados de seguir hoje (cap ${cap}). Roda de novo amanhã pro resto.</b>`);
+    log(`<b>Fim: ${ok} deixados de seguir. ${ok < marked.length && !stop ? "Rode de novo amanhã pro resto." : ""}</b>`);
     btn.dataset.running = ""; btn.textContent = "Deixar de seguir marcados (paced)"; stop = false;
   };
   console.log("Painel aberto no canto superior direito.");

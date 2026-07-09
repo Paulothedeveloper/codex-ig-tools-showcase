@@ -5,27 +5,35 @@
 <h1 align="center">Codex IG Tools</h1>
 
 <p align="center">
-  Crescimento de Instagram que roda <b>no console do seu próprio navegador</b> — na sua sessão logada.<br>
+  Crescimento de Instagram que roda <b>na sua própria sessão</b> — no PC e no celular.<br>
   Sem servidor, sem senha, sem bot que loga por você. <b>Você continua no controle.</b>
 </p>
 
 <p align="center">
   <img alt="license" src="https://img.shields.io/badge/licença-MIT-00E5C9?style=flat&labelColor=0B0E17">
   <img alt="runtime" src="https://img.shields.io/badge/roda_no-navegador-FF4D3D?style=flat&labelColor=0B0E17">
+  <img alt="install" src="https://img.shields.io/badge/PC_+_celular-bookmarklet-00E5C9?style=flat&labelColor=0B0E17">
   <img alt="backend" src="https://img.shields.io/badge/servidor-zero-8892a0?style=flat&labelColor=0B0E17">
   <a href="https://paulocodex.com"><img alt="site" src="https://img.shields.io/badge/paulocodex.com-00E5C9?style=flat&labelColor=0B0E17"></a>
 </p>
 
 ---
 
-## ⚡ Começar em 10 segundos
+## ⚡ Instalar (um toque, PC + celular)
 
-1. Baixe (ou copie) o arquivo **[`codex-ig.js`](codex-ig.js)** — botão **Raw** → Ctrl+A → Ctrl+C.
-2. Abra o **instagram.com** já **logado**, no computador.
-3. Tecla **F12** → aba **Console**.
-4. **Cole** o conteúdo → **Enter**.
+Abra a página **[`install.html`](install.html)** — ela tem o botão de instalar e o passo a passo.
 
-Um painel abre no canto superior direito. Pronto. Nada é instalado.
+**No computador (Firefox/Chrome):**
+1. Mostre a barra de favoritos (`Ctrl+Shift+B`).
+2. **Arraste** o botão **⚡ Codex IG** da página para a barra.
+3. No **instagram.com** logado, clique no favorito. O painel abre.
+
+**No celular (Firefox recomendado):**
+1. Toque em **Copiar bookmarklet** na página.
+2. Crie um favorito de qualquer página → **edite** → **cole** no campo de endereço.
+3. No instagram.com logado, abra esse favorito.
+
+> Prefere sem instalar nada? Abra o **Console** (`F12`) no instagram.com, cole o **[`codex-ig.js`](codex-ig.js)** e dê Enter.
 
 ---
 
@@ -33,9 +41,11 @@ Um painel abre no canto superior direito. Pronto. Nada é instalado.
 
 | Aba | O que faz |
 |---|---|
-| **📊 Painel** | Os números da sua conta: seguindo, seguidores, **quem não te segue de volta**, mútuos e a razão saudável. |
-| **🧹 Limpar** | Deixa de seguir quem **não te retribui**, de forma **ritmada** (delay + pausa anti-bloqueio + limite/dia + parada automática se o Instagram reclamar). |
-| **🎯 Achar alvos** | Você dá **um concorrente do seu nicho** → devolve os **seguidores dele** (= seu público-alvo) como lista clicável, já tirando quem você segue, com um **comentário-modelo** por segmento. |
+| **Painel** | Números da conta: seguindo, seguidores, **quem não te segue de volta**, mútuos, fãs e a razão saudável — **mais**: um *snapshot* que mostra **quem deixou de te seguir** e quem chegou desde a última vez. |
+| **Limpar** | Deixa de seguir quem **não te retribui**, no **seu ritmo**: **quantidade e tempo à sua escolha** (sem teto de 200), **whitelist** para proteger contas, busca/filtro, **medidor de risco** honesto e **parada automática** se o Instagram reclamar. |
+| **Alvos** | Você dá **um concorrente do seu nicho** → devolve os **seguidores dele** (= seu público-alvo) como lista clicável, já tirando quem você segue, com um **comentário-modelo** por segmento. |
+
+O painel é **arrastável** e usa a identidade **Codex Arena** (Deep Void + Electric Teal + Burnt Coral).
 
 > Prefere separado? Os scripts individuais estão em **[`tools/`](tools/)** (`codex-ig-cleaner.js`, `codex-target-finder.js`).
 
@@ -43,10 +53,10 @@ Um painel abre no canto superior direito. Pronto. Nada é instalado.
 
 ## 🔒 Seguro por design
 
-- **Roda local, na sua sessão.** Usa os cookies que **já estão** no navegador (lidos em tempo de execução, **nunca gravados nem enviados**). Nada trafega para servidor nenhum. O `x-ig-app-id` usado é o público do IG web, igual para qualquer usuário.
+- **Roda local, na sua sessão.** Usa os cookies que **já estão** no navegador (lidos em tempo de execução, **nunca gravados nem enviados**). Nada trafega para servidor nenhum. O `x-ig-app-id` usado é o público do IG web, igual para qualquer usuário. O snapshot e a whitelist ficam no `localStorage` do **seu** aparelho.
 - **Ver é leitura.** Listar números e não-seguidores não altera nada.
-- **Unfollow é ritmado.** Automação de follow/unfollow é gray-area do ToS do Instagram — por isso o Limpar vai devagar (delay + jitter + pausa de 5 min a cada lote + limite por vez + parada em `429/400`). Use na **sua** conta, em volume humano. Você assume o risco.
-- **Achar alvos não interage por você** — de propósito. Curtir/comentar em massa por script é o que bane. A parte segura (achar o *quem*) é automatizada; o clique humano é seu.
+- **Unfollow é seu.** Você define a **quantidade** e o **tempo**. O painel mostra um **medidor de risco** (Seguro / Moderado / Agressivo) porque automação de follow/unfollow é gray-area do ToS do Instagram — volume alto pode dar **bloqueio temporário**. Há **jitter**, **pausa por lote** e **parada automática** em `429/400`. Use na **sua** conta, em volume humano. **Você assume o risco.**
+- **Alvos não interage por você** — de propósito. Curtir/comentar em massa por script é o que bane. A parte segura (achar o *quem*) é automatizada; o clique humano é seu.
 
 Não use para spam, assédio, ou em contas que não são suas.
 
@@ -54,13 +64,12 @@ Não use para spam, assédio, ou em contas que não são suas.
 
 ## 🗺️ Roadmap
 
-Ideias em avaliação para as próximas versões:
-
+- [x] **Quem deixou de me seguir** — comparação entre execuções (snapshot).
+- [x] **Whitelist** — nunca dar unfollow em contas marcadas.
+- [x] **Instalável** — bookmarklet no PC e no celular.
 - [ ] **Melhor horário** — quando seus seguidores estão online.
 - [ ] **Pesquisa de hashtag** — hashtags do nicho por volume e concorrência.
-- [ ] **Quem deixou de me seguir** — comparação entre execuções.
 - [ ] **Exportar CSV** — levar as listas pra planilha.
-- [ ] **Whitelist** — nunca dar unfollow em contas marcadas.
 
 Sugestões? Abra uma *issue* ou fale em **contato@paulocodex.com**.
 
@@ -68,7 +77,11 @@ Sugestões? Abra uma *issue* ou fale em **contato@paulocodex.com**.
 
 ## 🛠️ Stack
 
-JavaScript puro (Web API interna do Instagram via `fetch` na sessão logada) · painel injetado no DOM com CSS próprio · **zero dependências · zero backend · zero build**.
+JavaScript puro (Web API interna do Instagram via `fetch` na sessão logada) · painel injetado no DOM com CSS próprio · bookmarklet gerado por `build-bookmarklet.js` (a fonte exata, sem minificação que possa quebrar) · **zero dependências · zero backend · zero build de framework**.
+
+```
+node build-bookmarklet.js   # gera codex-ig.bookmarklet.txt + install.html a partir de codex-ig.js
+```
 
 ---
 
