@@ -1,0 +1,11 @@
+# Codex IG · tracker de cliques — config do Cloudflare Worker.
+# Segredos (WRITE_KEY, READ_KEY) NUNCA vao aqui: use `wrangler secret put`.
+name = "codex-ig-tracker"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# Crie o namespace com:  wrangler kv namespace create CLICKS
+# e cole o id retornado abaixo (o "id" nao e segredo).
+kv_namespaces = [
+  { binding = "CLICKS", id = "COLE_O_ID_DO_KV_AQUI" }
+]

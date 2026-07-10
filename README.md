@@ -37,15 +37,20 @@ Abra a página **[`install.html`](install.html)** — ela tem o botão de instal
 
 ---
 
-## 🧰 Três ferramentas num painel só
+## 🧰 Quatro ferramentas num painel só
 
 | Aba | O que faz |
 |---|---|
 | **Painel** | Números da conta: seguindo, seguidores, **quem não te segue de volta**, mútuos, fãs e a razão saudável — **mais**: um *snapshot* que mostra **quem deixou de te seguir** e quem chegou desde a última vez. |
 | **Limpar** | Deixa de seguir quem **não te retribui**, no **seu ritmo**: **quantidade e tempo à sua escolha** (sem teto de 200), **whitelist** para proteger contas, busca/filtro, **medidor de risco** honesto e **parada automática** se o Instagram reclamar. |
 | **Alvos** | Você dá **um concorrente do seu nicho** → devolve os **seguidores dele** (= seu público-alvo) como lista clicável, já tirando quem você segue, com um **comentário-modelo** por segmento. |
+| **Relatório** | Métricas **reais** da sua sessão: **crescimento de seguidores** (histórico local, 1 ponto/dia), **engajamento e top posts** (curtidas/comentários/views dos últimos posts, melhor horário), gerador de **link com UTM** e **contagem de cliques** no link da bio. |
 
 O painel é **arrastável** e usa a identidade **Codex Arena** (Deep Void + Electric Teal + Burnt Coral).
+
+### 📈 Contar cliques no link da bio (honesto)
+
+O Instagram **não** deixa um script contar clique no link da bio — todo contador (Linktree etc.) roda num **servidor**. Por isso o repo traz um **tracker próprio** em **[`tracker/`](tracker/)**: um Cloudflare Worker minúsculo (grátis) que redireciona `/l/<slug>` e **conta cada toque**, sem servidor de terceiro e **sem PII** (não guarda IP, cookie nem user-agent). Passo a passo em **[`tracker/README.md`](tracker/README.md)** — depois é só colar a URL no painel, aba **Relatório**.
 
 > Prefere separado? Os scripts individuais estão em **[`tools/`](tools/)** (`codex-ig-cleaner.js`, `codex-target-finder.js`).
 
