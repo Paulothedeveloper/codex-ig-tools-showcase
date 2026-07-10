@@ -125,11 +125,14 @@ input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,201,.15)}
 .foot a{color:var(--teal)}
 .muted{color:var(--slate);font-size:12.5px}
 .hide{display:none}
+.linkbtn{background:none;border:0;color:var(--teal);font:inherit;font-weight:700;cursor:pointer;padding:2px 0;text-decoration:underline}
 </style></head><body>
 <div class="aur"></div>
 <div class="wrap">
   <div class="hd"><div class="logo">C</div><div><h1><b>Codex IG</b> · Cliques</h1><span>link tracker</span></div></div>
   <p class="sub">Painel do seu tracker de cliques. Roda no domínio do worker, então funciona (a Instagram bloqueia isso dentro do painel do app — por isso esta página existe).</p>
+  <button id="editkeys" class="linkbtn hide">Editar chaves</button>
+  <div class="muted" id="keyhint" style="font-size:11px"></div>
 
   <div class="card" id="cfg">
     <h2>Suas chaves</h2>
@@ -161,8 +164,17 @@ input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,229,201,.15)}
 const $=s=>document.querySelector(s), K="codexig-tracker-keys";
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let keys=JSON.parse(localStorage.getItem(K)||"null");
-function show(){ if(keys&&keys.rk){ $("#cfg").classList.add("hide"); $("#app").classList.remove("hide"); $("#statsc").classList.remove("hide"); loadStats(); } }
+function show(){
+  const has=keys&&keys.rk;
+  $("#cfg").classList.toggle("hide",!!has);
+  $("#editkeys").classList.toggle("hide",!has);
+  $("#app").classList.toggle("hide",!has);
+  $("#statsc").classList.toggle("hide",!has);
+  $("#keyhint").textContent = has ? ("leitura salva termina em …"+keys.rk.slice(-4)+(keys.wk?" · escrita …"+keys.wk.slice(-4):"")) : "";
+  if(has) loadStats();
+}
 $("#save").onclick=()=>{ keys={rk:$("#rk").value.trim(),wk:$("#wk").value.trim()}; if(!keys.rk){alert("Cole ao menos a chave de leitura.");return;} localStorage.setItem(K,JSON.stringify(keys)); show(); };
+$("#editkeys").onclick=()=>{ $("#cfg").classList.remove("hide"); if(keys){$("#rk").value=keys.rk||"";$("#wk").value=keys.wk||"";} $("#rk").focus(); };
 if(keys){ $("#rk").value=keys.rk||""; $("#wk").value=keys.wk||""; }
 show();
 $("#create").onclick=async()=>{
@@ -187,6 +199,6 @@ async function loadStats(){
     if(!links.length){ st.innerHTML='<div class="muted">Nenhum link ainda. Crie um acima.</div>'; return; }
     const max=Math.max(...links.map(l=>l.clicks),1);
     st.innerHTML=links.map(l=>'<div class="rowc"><a href="/l/'+esc(l.slug)+'" target="_blank">/l/'+esc(l.slug)+'</a><b>'+l.clicks+'</b></div><div class="bar"><i style="width:'+(l.clicks/max*100).toFixed(0)+'%"></i></div>').join("");
-  }catch(e){ st.innerHTML='<div class="msg err">Falhou: '+esc(e.message)+' (confira a chave de leitura).</div>'; }
+  }catch(e){ st.innerHTML='<div class="msg err">Falhou: '+esc(e.message)+' — reabri as chaves acima, confira e salve de novo.</div>'; $("#cfg").classList.remove("hide"); if(keys){$("#rk").value=keys.rk||"";} }
 }
 </script></body></html>`;
