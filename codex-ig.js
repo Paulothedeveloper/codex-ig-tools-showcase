@@ -620,61 +620,17 @@
     const track = body.querySelector("#cx-track");
     const drawTrack = () => {
       const t = LS("tracker") || {};
-      if (!t.base) {
-        track.innerHTML = `
-          <div class="muted">O Instagram <b>não</b> deixa um script contar clique no link da bio — todo contador (Linktree etc.) roda num servidor. O Codex tem um <b>tracker próprio</b> (Cloudflare Worker, grátis) que redireciona e conta cada toque, sem servidor de terceiro.</div>
-          <div class="warn">Como ligar: publique <b>tracker/</b> deste repo (passo a passo no <b>tracker/README.md</b>) e cole a URL + as chaves abaixo. É a única parte que precisa de um deploy seu.</div>
-          <input id="cx-tk-base" placeholder="https://codex-ig-tracker.SEU.workers.dev" style="width:100%;margin-top:8px">
-          <div class="row" style="margin-top:8px">
-            <label class="fld">Chave de leitura<input id="cx-tk-rk" placeholder="READ_KEY"></label>
-            <label class="fld">Chave de escrita<input id="cx-tk-wk" placeholder="WRITE_KEY"></label>
-          </div>
-          <button class="btn btn-ghost" id="cx-tk-save" style="margin-top:9px">${ic("check")} Conectar tracker</button>`;
-        body.querySelector("#cx-tk-save").onclick = () => {
-          const base = body.querySelector("#cx-tk-base").value.trim().replace(/\/$/, "");
-          if (!/^https?:\/\//.test(base)) return alert("Cole a URL do worker (https://...).");
-          LS("tracker", { base, rk: body.querySelector("#cx-tk-rk").value.trim(), wk: body.querySelector("#cx-tk-wk").value.trim() });
-          drawTrack();
-        };
-      } else {
-        track.innerHTML = `
-          <div class="muted">Tracker: <b>${esc(t.base.replace(/^https?:\/\//, ""))}</b> <span class="chip" id="cx-tk-forget" style="cursor:pointer">desconectar</span></div>
-          <div class="row" style="margin-top:9px">
-            <label class="fld" style="flex:2">Destino<input id="cx-nl-url" placeholder="https://paulocodex.com"></label>
-            <label class="fld">Slug<input id="cx-nl-slug" placeholder="bio"></label>
-          </div>
-          <button class="btn btn-ghost" id="cx-nl-go" style="margin-top:9px">${ic("link")} Criar link rastreado</button>
-          <div id="cx-nl-out"></div>
-          <button class="btn btn-teal" id="cx-tk-load" style="margin-top:10px">${ic("report")} Ver cliques</button>
-          <div id="cx-tk-stats" style="margin-top:9px"></div>`;
-        body.querySelector("#cx-tk-forget").onclick = () => { LS("tracker", {}); drawTrack(); };
-        body.querySelector("#cx-nl-go").onclick = async () => {
-          const target = body.querySelector("#cx-nl-url").value.trim(), slug = body.querySelector("#cx-nl-slug").value.trim().toLowerCase();
-          if (!/^https?:\/\//.test(target) || !/^[a-z0-9-]{1,40}$/.test(slug)) return alert("Destino https:// e slug (letras/números/hífen).");
-          const out = body.querySelector("#cx-nl-out");
-          out.innerHTML = `<div class="muted">Criando…</div>`;
-          try {
-            const r = await fetch(t.base + "/api/link", { method: "POST", headers: { "content-type": "application/json", "x-write-key": t.wk }, body: JSON.stringify({ slug, url: target }) });
-            const j = await r.json();
-            if (!r.ok || !j.short) throw new Error(j.error || ("HTTP " + r.status));
-            out.innerHTML = `<div class="out">${esc(j.short)}</div><button class="btn btn-ghost" id="cx-nl-cp" style="margin-top:7px">${ic("copy")} Copiar (use na bio)</button>`;
-            body.querySelector("#cx-nl-cp").onclick = () => navigator.clipboard.writeText(j.short).then(() => { body.querySelector("#cx-nl-cp").innerHTML = ic("check") + " Copiado"; });
-          } catch (e) { out.innerHTML = `<div class="warn">Falhou: ${esc(e.message)}. Confira a chave de escrita.</div>`; }
-        };
-        body.querySelector("#cx-tk-load").onclick = async () => {
-          const st = body.querySelector("#cx-tk-stats");
-          st.innerHTML = `<div class="muted">Lendo cliques…</div>`;
-          try {
-            const r = await fetch(t.base + "/api/stats?k=" + encodeURIComponent(t.rk));
-            const j = await r.json();
-            if (!r.ok) throw new Error("HTTP " + r.status);
-            const links = j.links || [];
-            if (!links.length) { st.innerHTML = `<div class="muted">Nenhum clique ainda. Crie um link acima, ponha na bio e volte aqui.</div>`; return; }
-            const max = Math.max(...links.map((l) => l.clicks), 1);
-            st.innerHTML = links.map((l) => `<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px"><b>/${esc(l.slug)}</b><span style="color:var(--teal);font-weight:800">${nf.format(l.clicks)}</span></div><div class="meter"><i style="width:${(l.clicks / max * 100).toFixed(0)}%;background:linear-gradient(90deg,var(--teal),var(--teal2))"></i></div></div>`).join("");
-          } catch (e) { st.innerHTML = `<div class="warn">Falhou: ${esc(e.message)}. Confira a URL/chave de leitura.</div>`; }
-        };
-      }
+      track.innerHTML = `
+        <div class="muted">A Instagram <b>bloqueia</b> o painel de falar com servidor externo (trava de segurança CSP). Então <b>criar link</b> e <b>ver cliques</b> abre no <b>painel do próprio tracker</b> (mesmo domínio = funciona). Tuas chaves ficam lá, no teu navegador.</div>
+        <input id="cx-tk-base" placeholder="https://codex-ig-tracker.SEU.workers.dev" value="${esc(t.base || "")}" style="width:100%;margin-top:9px">
+        <button class="btn btn-teal" id="cx-tk-open" style="margin-top:9px">${ic("report")} Abrir painel de cliques (aba nova)</button>
+        <div class="muted" style="margin-top:8px;font-size:11px">Não subiu o tracker ainda? Passo a passo em <b>tracker/README.md</b> do repo.</div>`;
+      body.querySelector("#cx-tk-open").onclick = () => {
+        const base = body.querySelector("#cx-tk-base").value.trim().replace(/\/$/, "");
+        if (!/^https?:\/\//.test(base)) return alert("Cole a URL do worker (https://...).");
+        LS("tracker", { base });
+        window.open(base + "/", "_blank", "noopener");
+      };
     };
     drawTrack();
   }
