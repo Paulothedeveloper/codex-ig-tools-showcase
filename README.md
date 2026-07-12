@@ -93,3 +93,23 @@ node build-bookmarklet.js   # gera codex-ig.bookmarklet.txt + install.html a par
 <p align="center">
   <sub>Feito no estúdio <a href="https://paulocodex.com">Paulocodex</a> · © 2026 Paulo Batista · Licença MIT</sub>
 </p>
+
+---
+
+## 👤 Sobre o desenvolvedor
+
+<img src="https://paulocodex.com/products/paulo.jpg" alt="Paulo" width="120" align="left" style="margin-right:16px;border-radius:12px" />
+
+**Paulo** é desenvolvedor indie e produtor de vídeo brasileiro (estúdio [Paulocodex](https://paulocodex.com)). O Codex IG começou como um kit no console do navegador e virou também um app desktop nativo, aberto e local-first. Desenvolve de forma aberta e ouve quem usa.
+
+<br clear="left" />
+
+> App desktop nativo (Tauri, MIT, grátis): **[github.com/Paulothedeveloper/codex-ig-desktop](https://github.com/Paulothedeveloper/codex-ig-desktop)**
+
+---
+
+<div align="center">
+
+📧 [contato@paulocodex.com](mailto:contato@paulocodex.com) · 📸 [Instagram](https://instagram.com/paulodev.codex) · 💼 [LinkedIn](https://www.linkedin.com/in/paulo-adriel/) · 🌐 [paulocodex.com](https://paulocodex.com) · 🐙 [github.com/Paulothedeveloper](https://github.com/Paulothedeveloper)
+
+</div>
