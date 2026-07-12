@@ -96,6 +96,14 @@ node build-bookmarklet.js   # gera codex-ig.bookmarklet.txt + install.html a par
 
 ---
 
+## 🥷 Mascote
+
+<img src="https://paulocodex.com/brand/ninjas/codex-ig-tools.png" alt="Codex IG — ninja" width="200" align="right" />
+
+Todo projeto do estúdio tem o **ninja Codex** na cor da sua identidade — o mesmo mascote da casa, recolorido pro tema do **Codex IG**.
+
+<br clear="right" />
+
 ## 👤 Sobre o desenvolvedor
 
 <img src="https://paulocodex.com/products/paulo.jpg" alt="Paulo" width="120" align="left" style="margin-right:16px;border-radius:12px" />
